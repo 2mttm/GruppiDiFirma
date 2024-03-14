@@ -1,1 +1,14 @@
 /* You can add global styles to this file, and also import other style files */
+
+/*html, body { height: 100%; }*/
+body {
+  /*font-family: Roboto, "Helvetica Neue", sans-serif !important;*/
+  padding: 20px;
+}
+html {
+  background-color: azure;
+}
+mat-card {
+  box-shadow: 3px 3px 3px 3px lightgray !important;
+  margin-bottom: 10px;
+}
