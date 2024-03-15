@@ -11,6 +11,9 @@
 .group-card:hover .menu-icon {
   opacity: 1;
 }
+.menu-icon:active {
+  opacity: 1;
+}
 .group-card mat-card-title {
   display: flex;
   align-items: center;
@@ -32,6 +35,11 @@
   display: flex;
   gap: 15px;
 }
+mat-card-content {
+  margin-top: 20px;
+  display: flex;
+  flex-wrap: wrap;
+}
 .function-card {
   box-shadow: none !important;
 }
@@ -40,9 +48,6 @@
 }
 .function-card mat-card-header {
   padding: 0;
-}
-mat-card-content {
-  margin-top: 20px;
 }
 .function-card mat-icon {
   width: 40px;

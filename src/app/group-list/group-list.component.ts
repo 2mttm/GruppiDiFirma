@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
 import {
   MatCard, MatCardActions,
   MatCardAvatar,
@@ -50,15 +50,14 @@ import {GroupComponent} from "../group/group.component";
   templateUrl: './group-list.component.html',
   styleUrl: './group-list.component.css'
 })
-export class GroupListComponent {
+export class GroupListComponent implements OnInit{
   title = 'Gruppi di firma'
-  @Input() groupList: Group[] = []
-  filteredGroupList: Group[] = this.groupList
-  n: number = 3;
-  ngAfterViewInit(){
-    this.filteredGroupList = this.groupList
-    console.log(this.groupList.length)
-  }
+  groupList: Group[] = groups;
+  filteredGroupList: Group[] = [];
+
+  ngOnInit(): void {
+    this.filteredGroupList = this.groupList;
+    }
 
   filterBy(nameInput: HTMLInputElement) {
     this.filteredGroupList = this.groupList.filter(p =>

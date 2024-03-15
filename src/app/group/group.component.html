@@ -3,7 +3,18 @@
     <mat-card-title>
       <mat-icon *ngIf="group.warning != ''" class="warning-icon">warning</mat-icon>
       {{group.groupName}}
-      <button mat-icon-button class="menu-icon"><mat-icon>more_horiz</mat-icon></button>
+      <mat-menu #menu="matMenu">
+        <div mat-menu-item disabled style="opacity: 1">Altro</div>
+        <a mat-menu-item routerLink="/edit/{{group.id}}" routerLinkActive="active" ariaCurrentWhenActive="page">
+          <mat-icon>edit</mat-icon>
+          <span>Modifica</span>
+        </a>
+        <button mat-menu-item (click)="groups.splice(groups.indexOf(group), 1)">
+          <mat-icon>delete</mat-icon>
+          <span>Elimina</span>
+        </button>
+      </mat-menu>
+      <button mat-icon-button class="menu-icon" [matMenuTriggerFor]="menu"><mat-icon>more_horiz</mat-icon></button>
     </mat-card-title>
     <mat-card-subtitle *ngIf="group.warning != ''">
       {{group.warning}}
