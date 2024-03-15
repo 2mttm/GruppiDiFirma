@@ -19,7 +19,7 @@
           {{group.groupName}}
           <mat-menu #menu="matMenu">
             <div mat-menu-item disabled style="opacity: 1">Altro</div>
-            <a mat-menu-item routerLink="/edit/{{group.id}}" routerLinkActive="active" ariaCurrentWhenActive="page">
+            <a mat-menu-item routerLink="/{{group.id}}" routerLinkActive="active" ariaCurrentWhenActive="page">
               <mat-icon>edit</mat-icon>
               <span>Modifica</span>
             </a>

@@ -5,5 +5,5 @@ import {GroupListComponent} from "./group-list/group-list.component";
 export const routes: Routes = [
   {path: '', component: GroupListComponent, pathMatch: 'full'},
   {path: 'create', component: GroupEditComponent},
-  {path: 'edit/:id', component: GroupEditComponent}
+  {path: ':id', component: GroupEditComponent}
 ];
