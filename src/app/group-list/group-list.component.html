@@ -1,0 +1,17 @@
+<h1>{{title}}</h1>
+<hr>
+
+<mat-form-field>
+  <mat-icon matPrefix>search</mat-icon>
+  <mat-label>Filtra</mat-label>
+  <input type="text" matInput (keyup)="filterBy(filterValue)" #filterValue>
+</mat-form-field>
+
+<ul class="groups">
+  @if (filteredGroupList.length === 0) {
+    <p>No items found</p>
+  }
+  <li *ngFor="let group of filteredGroupList">
+    <app-group [group]="group" [maxUsers]="3"></app-group>
+  </li>
+</ul>

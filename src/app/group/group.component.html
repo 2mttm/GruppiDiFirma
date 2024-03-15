@@ -1,0 +1,31 @@
+<mat-card [style.border-style]="(group.warning != '') ? 'solid' : ''" class="group-card">
+  <mat-card-header>
+    <mat-card-title>
+      <mat-icon *ngIf="group.warning != ''" class="warning-icon">warning</mat-icon>
+      {{group.groupName}}
+      <button mat-icon-button class="menu-icon"><mat-icon>more_horiz</mat-icon></button>
+    </mat-card-title>
+    <mat-card-subtitle *ngIf="group.warning != ''">
+      {{group.warning}}
+    </mat-card-subtitle>
+    <div class="user-avatars">
+      <button *ngFor="let user of group.users.slice(0, maxUsers); let last = last" mat-icon-button class="user-avatar" >
+        <ng-container *ngIf="!last || last && group.users.length <= maxUsers">{{ user.userInitials }}</ng-container>
+        <ng-container *ngIf="last && group.users.length > maxUsers">+{{group.users.length - maxUsers + 1}}</ng-container>
+      </button>
+    </div>
+  </mat-card-header>
+
+  <mat-card-content>
+    <mat-card *ngFor="let groupFunction of group.functions" class="function-card">
+      <mat-card-header>
+        <mat-icon [style.color]="'lightblue'" mat-card-avatar>credit_card</mat-icon>
+        <mat-card-title>{{ groupFunction.title }}</mat-card-title>
+        <mat-card-subtitle *ngIf="groupFunction.minValue">
+          {{ groupFunction.minValue }} € - {{ groupFunction.maxValue }} €
+        </mat-card-subtitle>
+      </mat-card-header>
+
+    </mat-card>
+  </mat-card-content>
+</mat-card>

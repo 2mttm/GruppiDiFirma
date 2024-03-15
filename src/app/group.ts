@@ -1,12 +1,12 @@
 import {User} from "./user";
 import {GroupFunction} from "./groupFunction";
 
-export interface Group {
-  id: number,
-  groupName: string,
-  minValue: string,
-  maxValue: string,
-  warning: string,
-  users: User[],
-  functions: GroupFunction[]
+export class Group {
+  id: number = 0
+  groupName: string = ''
+  minValue: string = '0'
+  maxValue: string = '10'
+  warning: string = ''
+  users: User[] = []
+  functions: GroupFunction[] = []
 }
