@@ -17,8 +17,8 @@ import {filter} from "rxjs";
 import {Group} from "../group";
 import {MatFormField} from "@angular/material/form-field";
 import { MatInputModule } from '@angular/material/input';
-import {MatMenuTrigger} from "@angular/material/menu";
-import {GroupComponent} from "../group/group.component";
+import {MatMenu, MatMenuItem, MatMenuTrigger} from "@angular/material/menu";
+import {RouterLink, RouterLinkActive} from "@angular/router";
 
 @Component({
   selector: 'app-group-list',
@@ -45,7 +45,10 @@ import {GroupComponent} from "../group/group.component";
     MatInputModule,
     ReactiveFormsModule,
     MatMenuTrigger,
-    GroupComponent
+    MatMenu,
+    RouterLink,
+    MatMenuItem,
+    RouterLinkActive
   ],
   templateUrl: './group-list.component.html',
   styleUrl: './group-list.component.css'
@@ -54,6 +57,7 @@ export class GroupListComponent implements OnInit{
   title = 'Gruppi di firma'
   groupList: Group[] = groups;
   filteredGroupList: Group[] = [];
+  maxUsers: number = 3;
 
   ngOnInit(): void {
     this.filteredGroupList = this.groupList;
@@ -64,5 +68,9 @@ export class GroupListComponent implements OnInit{
       p.groupName.toLowerCase().includes(nameInput.value.toLowerCase()) ||
       p.warning.toLowerCase().includes(nameInput.value.toLowerCase())
     )
+  }
+
+  delete(index: number) {
+    this.groupList.splice(index, 1)
   }
 }

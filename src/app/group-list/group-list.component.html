@@ -12,6 +12,48 @@
     <p>No items found</p>
   }
   <li *ngFor="let group of filteredGroupList">
-    <app-group [group]="group" [maxUsers]="3"></app-group>
+    <mat-card [style.border-style]="(group.warning != '') ? 'solid' : ''" class="group-card">
+      <mat-card-header>
+        <mat-card-title>
+          <mat-icon *ngIf="group.warning != ''" class="warning-icon">warning</mat-icon>
+          {{group.groupName}}
+          <mat-menu #menu="matMenu">
+            <div mat-menu-item disabled style="opacity: 1">Altro</div>
+            <a mat-menu-item routerLink="/edit/{{group.id}}" routerLinkActive="active" ariaCurrentWhenActive="page">
+              <mat-icon>edit</mat-icon>
+              <span>Modifica</span>
+            </a>
+            <button mat-menu-item (click)="delete(groupList.indexOf(group))">
+              <mat-icon>delete</mat-icon>
+              <span>Elimina</span>
+            </button>
+          </mat-menu>
+          <button mat-icon-button class="menu-icon" [matMenuTriggerFor]="menu"><mat-icon>more_horiz</mat-icon></button>
+        </mat-card-title>
+        <mat-card-subtitle *ngIf="group.warning != ''">
+          {{group.warning}}
+        </mat-card-subtitle>
+        <div class="user-avatars">
+          <button *ngFor="let user of group.users.slice(0, maxUsers); let last = last" mat-icon-button class="user-avatar" >
+            <ng-container *ngIf="!last || last && group.users.length <= maxUsers">{{ user.userInitials }}</ng-container>
+            <ng-container *ngIf="last && group.users.length > maxUsers">+{{group.users.length - maxUsers + 1}}</ng-container>
+          </button>
+        </div>
+      </mat-card-header>
+
+      <mat-card-content>
+        <mat-card *ngFor="let groupFunction of group.functions" class="function-card">
+          <mat-card-header>
+            <mat-icon [style.color]="'lightblue'" mat-card-avatar>credit_card</mat-icon>
+            <mat-card-title>{{ groupFunction.title }}</mat-card-title>
+            <mat-card-subtitle *ngIf="groupFunction.minValue">
+              {{ groupFunction.minValue }} € - {{ groupFunction.maxValue }} €
+            </mat-card-subtitle>
+          </mat-card-header>
+
+        </mat-card>
+      </mat-card-content>
+    </mat-card>
+
   </li>
 </ul>
