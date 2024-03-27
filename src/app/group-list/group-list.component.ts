@@ -61,7 +61,7 @@ export class GroupListComponent implements OnInit{
 
   ngOnInit(): void {
     this.filteredGroupList = this.groupList;
-    }
+  }
 
   filterBy(nameInput: HTMLInputElement) {
     this.filteredGroupList = this.groupList.filter(p =>

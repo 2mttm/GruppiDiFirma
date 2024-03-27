@@ -1,3 +1,42 @@
 h1{
   display: inline-block;
 }
+.cards-container{
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+#details{
+  width: 100%;
+}
+#services{
+  min-width: calc(50% - 10px);
+}
+.card-edit-headers{
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+.card-edit-headers mat-form-field{
+  flex-grow: 1;
+}
+.card-edit-headers mat-form-field:first-child {
+  flex-grow: 2;
+  /*max-width: 25%;*/
+}
+mat-card-content{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.user-avatars{
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+.user-avatar{
+  color: cornflowerblue;
+  background-color: lightcyan;
+  padding: 0;
+  margin-left: auto;
+}
