@@ -21,6 +21,8 @@ import {
 } from "@angular/material/table";
 import {functions} from "../mock-functions";
 import {NgIf} from "@angular/common";
+import {MatSlideToggle} from "@angular/material/slide-toggle";
+import {GroupFunction} from "../groupFunction";
 
 @Component({
   selector: 'app-group-edit',
@@ -47,7 +49,8 @@ import {NgIf} from "@angular/common";
     MatRow,
     MatHeaderRowDef,
     MatRowDef,
-    NgIf
+    NgIf,
+    MatSlideToggle
   ],
   templateUrl: './group-edit.component.html',
   styleUrl: './group-edit.component.css'
@@ -68,6 +71,67 @@ export class GroupEditComponent implements OnInit{
 
   protected readonly JSON = JSON;
   maxUsers: number = 3;
-  columnsToDisplay: string[] = ['service', 'min', 'max'];
+  columnsToDisplay: string[] = ['toggle', 'service', 'min', 'max'];
   dataSource: Function[] = functions;
+
+  isFunctionActive(fn: Function): boolean {
+    return this.group.functions.some((f: GroupFunction) => f.functionCode === fn.function_code);
+  }
+
+  toggleFunction(fn: Function): void {
+    const index = this.group.functions.findIndex((f: GroupFunction) => f.functionCode === fn.function_code);
+    if (index !== -1) {
+      // Если функция уже есть, удаляем ее из массива
+      this.group.functions.splice(index, 1);
+    } else {
+      // Если функция отсутствует, добавляем ее в массив с начальными значениями min и max
+      const newFunction: GroupFunction = {
+        title: fn.function_name,
+        functionCode: fn.function_code,
+        minValue: '0', // Значение по умолчанию для min
+        maxValue: '0', // Значение по умолчанию для max
+      };
+      this.group.functions.push(newFunction);
+    }
+    // Дополнительно можно добавить логику для отправки изменений на сервер или обновления состояния
+  }
+  getFunctionMin(fn: Function): string {
+    const func = this.group.functions.find((f: GroupFunction) => f.functionCode === fn.function_code);
+    return func ? func.minValue : '0';
+  }
+
+  getFunctionMax(fn: Function): string {
+    const func = this.group.functions.find((f: GroupFunction) => f.functionCode === fn.function_code);
+    return func ? func.maxValue : '0';
+  }
+  setFunctionMin(fn: any, value: string): void {
+    const index = this.group.functions.findIndex((f: GroupFunction) => f.functionCode === fn.function_code);
+    if (index !== -1) {
+      this.group.functions[index].minValue = value;
+    }
+  }
+
+  setFunctionMax(fn: any, value: string): void {
+    const index = this.group.functions.findIndex((f: GroupFunction) => f.functionCode === fn.function_code);
+    if (index !== -1) {
+      this.group.functions[index].maxValue = value;
+    }
+  }
+  validateMinValue(fn: any, event: any): void {
+    const newValue = event.target.value;
+    const groupMinValue = parseInt(this.group.minValue);
+    if (parseInt(newValue) < groupMinValue) {
+      event.target.value = groupMinValue.toString();
+      this.setFunctionMin(fn, groupMinValue.toString());
+    }
+  }
+
+  validateMaxValue(fn: any, event: any): void {
+    const newValue = event.target.value;
+    const groupMaxValue = parseInt(this.group.maxValue);
+    if (parseInt(newValue) > groupMaxValue) {
+      event.target.value = groupMaxValue.toString();
+      this.setFunctionMax(fn, groupMaxValue.toString());
+    }
+  }
 }
