@@ -81,19 +81,16 @@ export const groups: Group[] = [
         userInitials: "EB",
         fullName: "Elisa Blu"
       },
-
       {
         userId: "09452W4295002",
         userInitials: "SN",
         fullName: "Sara Neri"
       },
-
       {
         userId: "09452W4295003",
         userInitials: "CD",
         fullName: "Clone Dispo"
       },
-
     ],
     warning: "In atessa che il gruppo di firma venga approvato dai master"
   },
@@ -125,19 +122,19 @@ export const groups: Group[] = [
         fullName: "Sara Neri"
       },
       {
-        userId: "09452W4295002",
-        userInitials: "SN",
-        fullName: "Sara Neri"
+        userId: "09452W4295001",
+        userInitials: "EB",
+        fullName: "Elisa Blu"
       },
       {
-        userId: "09452W4295002",
-        userInitials: "SN",
-        fullName: "Sara Neri"
+        userId: "09452W4295003",
+        userInitials: "CD",
+        fullName: "Clone Dispo"
       },
       {
-        userId: "09452W4295002",
-        userInitials: "SN",
-        fullName: "Sara Neri"
+        userId: "09452W4295010",
+        userInitials: "MR",
+        fullName: "Mario Rossi"
       }
     ],
     warning: ""
