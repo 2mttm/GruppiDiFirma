@@ -1,15 +1,15 @@
 <div>
-  <a routerLink=""><h1>Gruppi di Firma >&nbsp;</h1></a>
+    <a routerLink=""><h1>Gruppi di Firma >&nbsp;</h1></a>
 
-  <h1>
-    @if (editMode) {
-      <mat-form-field appearance="outline" subscriptSizing="dynamic">
-        <input matInput placeholder="Nome di gruppo" value="{{group.groupName}}">
-      </mat-form-field>
-    } @else {
-      {{group.groupName}}
-    }
-  </h1>
+    <h1>
+        @if (editMode) {
+            <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                <input matInput placeholder="Nome di gruppo" value="{{group.groupName}}">
+            </mat-form-field>
+        } @else {
+            {{ group.groupName }}
+        }
+    </h1>
 </div>
 <!--<div>{{JSON.stringify(group)}}</div>-->
 <div class="cards-container">
@@ -26,19 +26,21 @@
                 <mat-form-field>
                     <mat-label>Soglia minimi servizi</mat-label>
                     <input type="text" [(ngModel)]="group.minValue" matInput>
+                    <span matTextSuffix>EUR</span>
                 </mat-form-field>
                 <mat-form-field>
                     <mat-label>Soglia massima servizi</mat-label>
                     <input type="text" [(ngModel)]="group.maxValue" matInput>
+                    <span matTextSuffix>EUR</span>
                 </mat-form-field>
             </div>
             <div class="user-avatars">
                 @for (user of group.users.slice(0, maxUsers); let last = $last; track user.userId) {
-                    <button mat-icon-button class="user-avatar" >
+                    <button mat-icon-button class="user-avatar">
                         @if (!last || last && group.users.length <= maxUsers) {
                             {{ user.userInitials }}
                         } @else {
-                            +{{group.users.length - maxUsers + 1}}
+                            +{{ group.users.length - maxUsers + 1 }}
                         }
                     </button>
                 } @empty {
@@ -56,13 +58,13 @@
         <mat-card-content>
             <table mat-table *ngIf="dataSource" [dataSource]="dataSource" class="mat-elevation-z0">
                 <ng-container matColumnDef="service">
-                    <th mat-header-cell *matHeaderCellDef> Servizio </th>
-                    <td mat-cell *matCellDef="let fn"> {{ fn.function_name }} </td>
+                    <th mat-header-cell *matHeaderCellDef> Servizio</th>
+                    <td mat-cell *matCellDef="let fn"> {{ fn.function_name }}</td>
                 </ng-container>
 
                 <!-- Добавлены столбцы для переключателей -->
                 <ng-container matColumnDef="toggle">
-                    <th mat-header-cell *matHeaderCellDef> Attivo </th>
+                    <th mat-header-cell *matHeaderCellDef> Attivo</th>
                     <td mat-cell *matCellDef="let fn">
                         <mat-slide-toggle
                                 [checked]="isFunctionActive(fn)"
@@ -72,25 +74,69 @@
                 </ng-container>
 
                 <ng-container matColumnDef="min">
-                    <th mat-header-cell *matHeaderCellDef> Soglia minima </th>
+                    <th mat-header-cell *matHeaderCellDef> Soglia minima</th>
                     <td mat-cell *matCellDef="let fn">
                         <ng-container *ngIf="isFunctionActive(fn)">
-                            <input type="text" [ngModel]="getFunctionMin(fn)" (ngModelChange)="setFunctionMin(fn, $event)" (input)="validateMinValue(fn, $event)">
+                            <input type="text" [ngModel]="getFunctionMin(fn)"
+                                   (ngModelChange)="setFunctionMin(fn, $event)" (input)="validateMinValue(fn, $event)">
                         </ng-container>
                     </td>
                 </ng-container>
 
                 <ng-container matColumnDef="max">
-                    <th mat-header-cell *matHeaderCellDef> Soglia massima </th>
+                    <th mat-header-cell *matHeaderCellDef> Soglia massima</th>
                     <td mat-cell *matCellDef="let fn">
                         <ng-container *ngIf="isFunctionActive(fn)">
-                            <input type="text" [ngModel]="getFunctionMax(fn)" (ngModelChange)="setFunctionMax(fn, $event)" (input)="validateMaxValue(fn, $event)">
+                            <input type="text" [ngModel]="getFunctionMax(fn)"
+                                   (ngModelChange)="setFunctionMax(fn, $event)" (input)="validateMaxValue(fn, $event)">
                         </ng-container>
                     </td>
                 </ng-container>
 
                 <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
                 <tr mat-row *matRowDef="let row; columns: columnsToDisplay;"></tr>
+            </table>
+        </mat-card-content>
+    </mat-card>
+
+    <mat-card id="users">
+        <mat-card-header>
+            <mat-card-title>Seleziona utenti da aggiungere al gruppo</mat-card-title>
+            <mat-card-subtitle>Sono disponibili solo gli utenti dispositivi</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+            <mat-form-field subscriptSizing="dynamic">
+                <mat-label>Filtra..</mat-label>
+                <input matInput (keyup)="filterUsers($event)" #input>
+            </mat-form-field>
+            <table mat-table *ngIf="dataSourceUsers" [dataSource]="dataSourceUsers" class="mat-elevation-z0">
+                <ng-container matColumnDef="fullName">
+                    <th mat-header-cell *matHeaderCellDef> Full Name</th>
+                    <td mat-cell *matCellDef="let user"> {{ user.fullName }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="toggle">
+                    <th mat-header-cell *matHeaderCellDef> Active</th>
+                    <td mat-cell *matCellDef="let user">
+                        <mat-slide-toggle
+                                [checked]="isUserActive(user)"
+                                (change)="toggleUser(user)">
+                        </mat-slide-toggle>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="userInitials">
+                    <th mat-header-cell *matHeaderCellDef> Avatar</th>
+                    <td mat-cell *matCellDef="let user">
+                        <button mat-icon-button class="user-avatar">
+                            {{ user.userInitials }}
+                        </button>
+                    </td>
+
+                </ng-container>
+
+                <!--                <tr mat-header-row *matHeaderRowDef="columnsToDisplayUsers"></tr>-->
+                <tr mat-row *matRowDef="let row; columns: columnsToDisplayUsers;"></tr>
             </table>
         </mat-card-content>
     </mat-card>
